@@ -8,8 +8,26 @@ the state manager needs to know the specific rules of play so as to generate all
 legal successor states to any given game state.
 """
 
-class StateManager:
-    def __init__(self):
+class PokerStateManager:
+    def __init__(self, game_manager):
+        self.game_manager = game_manager
+
+    def generate_successor_states(self, current_state):
+        legal_moves = self.generate_legal_moves(current_state)
+        successor_states = []
+        for move in legal_moves:
+            # Create a copy of the current state
+            new_state = current_state.copy()
+            # Apply the move to the new state
+            self.apply_move(new_state, move)
+            # Add the new state to the list of successor states
+            successor_states.append(new_state)
+        return successor_states
+    
+
+    def apply_move(self, state, move):
+        # This method applies a move to a state and updates the state accordingly
+        # The implementation will depend on the specific rules of the game
         pass
 
     def generete_legal_child_states(self):
