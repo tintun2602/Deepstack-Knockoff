@@ -1,5 +1,8 @@
-
 from collections import Counter
+from typing import Tuple
+from Settings.config import Config
+
+config = Config()
 
 class Card:
     def __init__(self, rank, suit):
@@ -9,22 +12,23 @@ class Card:
     def __str__(self):
         return f"{self.rank}{self.suit}"
 
-def generate_deck():
-    ranks = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
-    suits = ['H', 'D', 'C', 'S']
-    return [Card(rank, suit) for rank in ranks for suit in suits]
 
+class Deck:
+    def __init__(self):
+        self.config = config # Use the Config instance in Deck
 
+    def generate_deck(self):
+        return [Card(rank, suit) for rank in self.config.ranks for suit in self.config.suits]
 
 class Oracle:
     def __init__(self):
-        pass
+        self.config = config
 
     
-    def classify_hand(self, cards: list[Card]) -> [str]:
+    def classify_hand(self, cards: list[Card]) -> Tuple[str, str]:
         # Count the occurrences of each rank and suit
-        rank_counts = Counter(card.rank for card in cards)
-        suit_counts = Counter(card.suit for card in cards)
+        rank_counts = Counter(card.rank for card in cards if card.rank in self.config.ranks)
+        suit_counts = Counter(card.suit for card in cards if card.suit in self.config.suits)
         
         # Check for a Royal Flush
         if len(suit_counts) == 1 and rank_counts == Counter({'A': 1, 'K': 1, 'Q': 1, 'J': 1, '10': 1}):
