@@ -1,5 +1,9 @@
 import random
 from player import Player, AIPlayer
+from Settings.config import Config
+
+
+config = Config()
 
 
 class PokerGameManager:
@@ -11,6 +15,7 @@ class PokerGameManager:
         self.pot = 0
         self.current_bet = 0 
         self.game_state = "pre-flop"
+        self.config = config
 
     def add_player(self, name, chips, player_type='human'): 
         if player_type == 'human':
